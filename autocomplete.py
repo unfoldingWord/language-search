@@ -26,6 +26,7 @@
 #  Patrick Altman <paltman@eldarion.com>
 #  Jesse Griffin <jesse@distantshores.org>
 
+import sys
 import json
 import urllib2
 
@@ -114,4 +115,8 @@ def autocomplete():
 
 
 if __name__ == "__main__":
-    app.run()
+    try:
+        port_number = int(sys.argv[1])
+    except:
+        port_number = 5000
+    app.run(host='0.0.0.0', port=port_number)
