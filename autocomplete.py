@@ -109,7 +109,7 @@ def autocomplete():
         d.extend([
             x
             for x in data
-            if term in x["ln"].lower() or term in x["lr"].lower()
+            if term in x["ln"].lower() or term in x["lr"].lower() or term in x["ang"].lower()
         ])
     return jsonify({"results": d, "count": len(d), "term": term})
 
