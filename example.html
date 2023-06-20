@@ -9,7 +9,7 @@
               datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
               queryTokenizer: Bloodhound.tokenizers.whitespace,
               remote: {
-                  url: 'http://localhost:9096/?q=%QUERY',
+                  url: 'http://localhost:5000/?q=%QUERY',
                   filter: function (data) {
                       return data.results;
                   }
