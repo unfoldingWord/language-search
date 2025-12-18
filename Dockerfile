@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM dhi.io/python:3.12-alpine3.22-dev AS build
+FROM cgr.dev/chainguard/python:latest-dev AS builder
 
 WORKDIR /app
 
@@ -7,15 +7,15 @@ COPY requirements.txt .
 
 # Install requirements in venv environment
 # Disable caching, to keep Docker image lean
-RUN python -m venv /opt/venv && \
-    . /opt/venv/bin/activate && \
+RUN python -m venv /app/venv && \
+    . /app/venv/bin/activate && \
     pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Production
-FROM dhi.io/python:3.12-alpine3.22
+FROM cgr.dev/chainguard/python:latest
 
 # Copy build artifacts
-COPY --from=build /opt/venv /opt/venv
+COPY --from=builder /app/venv /app/venv
 
 WORKDIR /app
 
@@ -26,6 +26,6 @@ ADD https://td.unfoldingword.org/exports/langnames.json .
 EXPOSE 5000
 
 # Configure the environment to use the venv environment
-ENV PATH="/opt/venv/bin/:$PATH"
+ENV PATH="/app/venv/bin/:$PATH"
 
 CMD [ "python", "/app/main.py" ]
